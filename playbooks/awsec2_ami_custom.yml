@@ -1,0 +1,26 @@
+--- #Customize AMI
+- hosts: localhost
+  connection: local
+  become: yes
+  gather_facts: no
+  remote_user: test
+  vars_files:
+  - files/awscreds.yml
+  tasks:
+  - name: Customize AMI from EC2 Instance ID
+    ec2_ami:
+      aws_access_key: "{{ aws_id }}"
+      aws_secret_key: "{{ aws_key }}"
+      region: "{{ region }}"
+      instance_id: i-0297d7d5a0e46c755
+      wait: no
+      name: jb-ansible-test-ami2
+      tags:
+        Name: JB-Web-Server2
+        Service: JBWebServer2
+      device_mapping:
+        - device_name: /dev/sdb1
+          size: 100     #Size in KB unless spec'd
+          delete_on_termination: true
+          volume_type: gp2      
+    register: instance

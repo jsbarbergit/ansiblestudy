@@ -1,0 +1,17 @@
+--- #AWS exmaple to control ec2 state
+- hosts: localhost
+  connection: local
+  become: yes
+  gather_facts: no
+  remote_user: test
+  vars_files: 
+  - files/awscreds.yml
+  tasks:
+  - name: Control AWS EC2 state
+    ec2:
+      aws_access_key: "{{aws_id }}"
+      aws_secret_key: "{{ aws_key }}"
+      region: "{{ region }}"
+      instance_ids: i-01ae1cd2d13ff4033
+      ##http://docs.ansible.com/ansible/ec2_module.html
+      state: running

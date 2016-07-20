@@ -1,0 +1,19 @@
+--- #Keypair example
+- hosts: localhost
+  connection: local
+  remote_user: test
+  become: true
+  gather_facts: false
+  vars_files:
+    - files/awscreds.yml
+  tasks:
+    - name: 'Create a new keypair MyKeyPairTestAWS'
+      ec2_key:
+        aws_access_key: '{{ aws_id }}'
+        aws_secret_key: '{{ aws_key }}'
+        name: MyKeyPairTestAWS
+        region: eu-west-1
+        #Will remove if present
+        state: absent
+        #Will create if not present
+        #state: present
